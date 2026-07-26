@@ -51,26 +51,28 @@ src/
 
 ## Deploying
 
-The build output (`dist/`) is plain static files. This site is a single-page
-app, so every host needs a **fallback that serves `index.html` for unknown
-paths** (so deep links like `/blog/hello-world` work on refresh). Config for the
-common hosts is already included:
+The site deploys to **GitHub Pages** on the custom domain
+**[mia.decuir.info](https://mia.decuir.info)**, via GitHub Actions
+(`.github/workflows/deploy.yml`). Every push to `main` builds the site and
+publishes `dist/`.
 
-| Host              | What to do                                                                 |
-| ----------------- | -------------------------------------------------------------------------- |
-| **Vercel**        | Import the repo. `vercel.json` handles the SPA rewrite.                     |
-| **Netlify**       | Build command `npm run build`, publish dir `dist`. `public/_redirects` handles routing. |
-| **Cloudflare Pages** | Build command `npm run build`, output dir `dist`. Uses `public/_redirects`. |
-| **GitHub Pages**  | Enable Pages (Source: GitHub Actions). `.github/workflows/deploy.yml` builds & deploys. |
+The build output is plain static files. Since this is a single-page app, the
+workflow copies `index.html` to `404.html` so client-side routes (deep links
+like `/blog/hello-world`) resolve correctly on refresh.
 
-For any static host, the build command is `npm run build` and the output
-directory is `dist`.
+### One-time setup
 
-### Custom domain
+1. **Repo settings → Pages → Build and deployment → Source:** select
+   **GitHub Actions**.
+2. **Repo settings → Pages → Custom domain:** enter `mia.decuir.info`.
+3. **DNS (at your domain registrar / DNS host):** add a `CNAME` record:
 
-Point your domain at whichever host you choose (each has a "custom domain"
-section in its dashboard/docs). Because assets are served from the site root by
-default (`base: '/'`), a custom domain works with no extra config. The only case
-needing a change is a **GitHub Pages project page** served from a subpath
-(`user.github.io/repo`) — set `BASE_PATH=/repo/` for the build (see the deploy
-workflow).
+   | Type  | Name  | Value             |
+   | ----- | ----- | ----------------- |
+   | CNAME | `mia` | `mia-n.github.io` |
+
+4. Once GitHub verifies the domain and issues a certificate (can take a few
+   minutes to a few hours), enable **Enforce HTTPS**.
+
+The domain is also committed as [`public/CNAME`](public/CNAME), which Vite copies
+into the build output so the custom domain persists across deploys.

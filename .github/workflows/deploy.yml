@@ -1,13 +1,13 @@
-# Optional: build and deploy to GitHub Pages.
+# Build and deploy to GitHub Pages.
 #
-# To use it: repo Settings → Pages → Build and deployment → Source:
-# "GitHub Actions". If deploying to a project page (user.github.io/repo),
-# also set the BASE_PATH env below to "/<repo-name>/". For a custom domain
-# or user page, leave BASE_PATH unset (defaults to "/") and add your domain
-# under Settings → Pages.
+# One-time setup in the repo:
+#   Settings → Pages → Build and deployment → Source: "GitHub Actions".
+#   Settings → Pages → Custom domain: mia.decuir.info (then enable
+#   "Enforce HTTPS" once the certificate is issued).
 #
-# Not using GitHub Pages? Delete this file — Vercel, Netlify, and Cloudflare
-# Pages build directly from the repo with `npm run build` (output: dist/).
+# The custom domain is also committed as public/CNAME, which is copied into
+# the build output so the domain survives every deploy. Because the site is
+# served from the domain root, the Vite `base` stays "/" — no extra config.
 
 name: Deploy to GitHub Pages
 
@@ -35,8 +35,6 @@ jobs:
           node-version: 20
           cache: npm
       - run: npm ci
-      # For a project page, uncomment and set your repo name:
-      # - run: echo "BASE_PATH=/mia-personal-site/" >> "$GITHUB_ENV"
       - run: npm run build
       # SPA fallback so client-side routes work on refresh / deep links.
       - run: cp dist/index.html dist/404.html
