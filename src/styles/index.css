@@ -556,6 +556,9 @@ img {
   --earth: #3b82f6;
   --mars: #ef4444;
 
+  /* Stroke width of the orbit rings; the planet placement derives from it. */
+  --ring-w: 1px;
+
   position: relative;
   flex: none;
   width: 28px;
@@ -582,16 +585,28 @@ img {
   position: absolute;
   top: 50%;
   left: 50%;
-  border: 1px solid color-mix(in srgb, var(--text-muted) 26%, transparent);
+  width: var(--size);
+  height: var(--size);
+  border: var(--ring-w) solid
+    color-mix(in srgb, var(--text-muted) 26%, transparent);
   border-radius: 50%;
   transform: translate(-50%, -50%);
   animation: orbit-spin linear infinite;
 }
 
+/* Sit the planet on the ring's centerline.
+   `top/left: 50%` resolves against the parent's padding box, which is inset
+   by the border — but since the border is symmetric, that midpoint is still
+   the true center of the ring. From there: self-center the dot, then push it
+   out by the orbital radius (half the ring, less half a stroke). Deriving it
+   this way keeps the dot on the line if the size or stroke ever changes. */
 .solar-system .planet {
   position: absolute;
+  top: 50%;
   left: 50%;
   border-radius: 50%;
+  transform: translate(-50%, -50%)
+    translateY(calc((var(--size) - var(--ring-w)) / -2));
 }
 
 /* Orbit sizes and speeds. Durations grow outward (as they do for real
@@ -600,64 +615,51 @@ img {
    (delay/duration * 360deg), spacing them 90deg apart so they look scattered
    rather than bunched on first paint. */
 .solar-system .orbit-mercury {
-  width: 10px;
-  height: 10px;
+  --size: 10px;
   animation-duration: 4s;
   animation-delay: -0.5s;
 }
 
 .solar-system .orbit-venus {
-  width: 16px;
-  height: 16px;
+  --size: 16px;
   animation-duration: 7s;
   animation-delay: -2.62s;
 }
 
 .solar-system .orbit-earth {
-  width: 22px;
-  height: 22px;
+  --size: 22px;
   animation-duration: 11s;
   animation-delay: -6.88s;
 }
 
 .solar-system .orbit-mars {
-  width: 27px;
-  height: 27px;
+  --size: 27px;
   animation-duration: 17s;
   animation-delay: -14.88s;
 }
 
-/* Planet size and color. `top` centers the dot on its 1px ring:
-   0.5px (ring center) minus half the dot's height. */
+/* Planet size and color; placement is handled by .planet above. */
 .solar-system .orbit-mercury .planet {
   width: 3px;
   height: 3px;
-  top: -1px;
-  margin-left: -1.5px;
   background: var(--mercury);
 }
 
 .solar-system .orbit-venus .planet {
   width: 3.5px;
   height: 3.5px;
-  top: -1.25px;
-  margin-left: -1.75px;
   background: var(--venus);
 }
 
 .solar-system .orbit-earth .planet {
   width: 4px;
   height: 4px;
-  top: -1.5px;
-  margin-left: -2px;
   background: var(--earth);
 }
 
 .solar-system .orbit-mars .planet {
   width: 3px;
   height: 3px;
-  top: -1px;
-  margin-left: -1.5px;
   background: var(--mars);
 }
 
