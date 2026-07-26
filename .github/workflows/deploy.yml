@@ -1,0 +1,55 @@
+# Optional: build and deploy to GitHub Pages.
+#
+# To use it: repo Settings → Pages → Build and deployment → Source:
+# "GitHub Actions". If deploying to a project page (user.github.io/repo),
+# also set the BASE_PATH env below to "/<repo-name>/". For a custom domain
+# or user page, leave BASE_PATH unset (defaults to "/") and add your domain
+# under Settings → Pages.
+#
+# Not using GitHub Pages? Delete this file — Vercel, Netlify, and Cloudflare
+# Pages build directly from the repo with `npm run build` (output: dist/).
+
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      # For a project page, uncomment and set your repo name:
+      # - run: echo "BASE_PATH=/mia-personal-site/" >> "$GITHUB_ENV"
+      - run: npm run build
+      # SPA fallback so client-side routes work on refresh / deep links.
+      - run: cp dist/index.html dist/404.html
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
