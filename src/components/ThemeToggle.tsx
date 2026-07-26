@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import SolarSystem from './SolarSystem'
 
 type Theme = 'light' | 'dark'
 
@@ -20,6 +21,8 @@ export default function ThemeToggle() {
 
   const next = theme === 'dark' ? 'light' : 'dark'
 
+  // The solar system is the button. It stays aria-hidden — the accessible
+  // name comes from the button's label, not the decorative graphic.
   return (
     <button
       type="button"
@@ -28,7 +31,7 @@ export default function ThemeToggle() {
       aria-label={`Switch to ${next} mode`}
       title={`Switch to ${next} mode`}
     >
-      {theme === 'dark' ? '☀' : '☾'}
+      <SolarSystem />
     </button>
   )
 }
