@@ -1,5 +1,6 @@
 import { NavLink } from 'react-router-dom'
 import ThemeToggle from './ThemeToggle'
+import SolarSystem from './SolarSystem'
 import { siteConfig } from '../data/site'
 
 const links = [
@@ -30,6 +31,7 @@ export default function Nav() {
             </NavLink>
           ))}
           <ThemeToggle />
+          <SolarSystem />
         </nav>
       </div>
     </header>
