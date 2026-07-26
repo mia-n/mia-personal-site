@@ -1,0 +1,54 @@
+# Build and deploy to GitHub Pages.
+#
+# One-time setup in the repo:
+#   Settings → Pages → Build and deployment → Source: "GitHub Actions".
+#   Settings → Pages → Custom domain: mia.decuir.info (then enable
+#   "Enforce HTTPS" once the certificate is issued).
+#
+# The custom domain is also committed as public/CNAME, which is copied into
+# the build output so the domain survives every deploy. Because the site is
+# served from the domain root, the Vite `base` stays "/" — no extra config.
+
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm run build
+      # SPA fallback so client-side routes work on refresh / deep links.
+      - run: cp dist/index.html dist/404.html
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
