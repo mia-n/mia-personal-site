@@ -13,18 +13,21 @@ TypeScript**. It compiles to static files, so it can be hosted almost anywhere.
 
 ## Getting started
 
+This project uses [pnpm](https://pnpm.io) (pinned via the `packageManager`
+field). If you don't have it: `corepack enable`, or see pnpm's install docs.
+
 ```bash
-npm install
-npm run dev        # start the dev server (http://localhost:5173)
+pnpm install
+pnpm dev           # start the dev server (http://localhost:5173)
 ```
 
 Other scripts:
 
 ```bash
-npm run build      # type-check + produce a production build in dist/
-npm run preview    # preview the production build locally
-npm run typecheck  # type-check only
-npm run lint       # lint
+pnpm build         # type-check + produce a production build in dist/
+pnpm preview       # preview the production build locally
+pnpm typecheck     # type-check only
+pnpm lint          # lint
 ```
 
 ## Project structure
