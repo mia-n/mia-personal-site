@@ -543,6 +543,104 @@ img {
 }
 
 /* ------------------------------------------------------------------ */
+/* Header solar system (decorative, CSS-only)                          */
+/* ------------------------------------------------------------------ */
+/* Kept clearly smaller than the adjacent round theme-toggle button, and
+   spaced away from it, so it reads as an ornament rather than a control. */
+.solar-system {
+  position: relative;
+  flex: none;
+  width: 28px;
+  height: 28px;
+  margin-left: 0.7rem;
+}
+
+.solar-system .sun {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 6px;
+  height: 6px;
+  margin: -3px 0 0 -3px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 5px color-mix(in srgb, var(--accent) 55%, transparent);
+}
+
+/* Each orbit is a ring that spins; the planet rides on its edge. The
+   translate keeps the ring centered and must be repeated in the keyframes,
+   since the animation replaces the whole transform. */
+.solar-system .orbit {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  border: 1px solid color-mix(in srgb, var(--text-muted) 26%, transparent);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  animation: orbit-spin linear infinite;
+}
+
+.solar-system .planet {
+  position: absolute;
+  left: 50%;
+  border-radius: 50%;
+  background: var(--text-muted);
+}
+
+.solar-system .orbit-1 {
+  width: 12px;
+  height: 12px;
+  animation-duration: 4s;
+}
+
+.solar-system .orbit-2 {
+  width: 20px;
+  height: 20px;
+  /* Negative delays stagger the starting angles so the planets don't all
+     begin lined up at twelve o'clock. */
+  animation-duration: 7s;
+  animation-delay: -2.4s;
+}
+
+.solar-system .orbit-3 {
+  width: 27px;
+  height: 27px;
+  animation-duration: 11s;
+  animation-delay: -6s;
+}
+
+.solar-system .orbit-1 .planet,
+.solar-system .orbit-3 .planet {
+  width: 3px;
+  height: 3px;
+  top: -1px;
+  margin-left: -1.5px;
+}
+
+.solar-system .orbit-2 .planet {
+  width: 4px;
+  height: 4px;
+  top: -1.5px;
+  margin-left: -2px;
+  background: color-mix(in srgb, var(--accent) 70%, var(--text-muted));
+}
+
+@keyframes orbit-spin {
+  from {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  to {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .solar-system .orbit {
+    animation: none;
+  }
+}
+
+/* ------------------------------------------------------------------ */
 /* Utilities                                                           */
 /* ------------------------------------------------------------------ */
 .muted {
@@ -567,5 +665,10 @@ img {
   .nav-link {
     padding: 0.35rem 0.45rem;
     font-size: 0.9rem;
+  }
+
+  /* Purely decorative — drop it before it crowds the links. */
+  .solar-system {
+    display: none;
   }
 }
