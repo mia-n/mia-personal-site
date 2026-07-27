@@ -5,9 +5,10 @@ export default function About() {
     <article className="stack-lg prose">
       <h1>About</h1>
       <p>
-        Hi, I’m {siteConfig.name}. This is a placeholder about page — replace
-        this copy with your own story: what you work on, what you care about,
-        and what you’re looking to do next.
+        I'm Mia. I've been a professional software engineer for a while, mostly working on large-scale maintainable platforms. I've done a lot of infra work too.
+      </p>
+      <p>
+        In my personal life I play roller derby, fly planes, and watch birds.
       </p>
       <p>
         You can reach me at{' '}

@@ -17,7 +17,7 @@ export const siteConfig: SiteConfig = {
   role: 'Software Engineer',
   tagline: 'I write software and fight gravity.',
   email: 'mia@decuir.info',
-  location: 'Remote',
+  location: 'Currently based in Bonn, Germany',
   socials: [
     { label: 'GitHub', href: 'https://github.com/mia-n' },
     { label: 'LinkedIn', href: 'https://www.linkedin.com/in/mia-decuir/' },
