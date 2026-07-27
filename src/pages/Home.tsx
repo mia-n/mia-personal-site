@@ -9,7 +9,14 @@ export default function Home() {
     <div className="stack-lg">
       <section className="hero">
         <p className="eyebrow">{siteConfig.role}</p>
-        <h1>{siteConfig.name}</h1>
+        <h1 className="hero-name">
+          <img
+            src="/images/home-avatar.jpg"
+            alt=""
+            className="hero-avatar"
+          />
+          {siteConfig.name}
+        </h1>
         <p className="lead">{siteConfig.tagline}</p>
         <div className="hero-actions">
           <Link to="/resume" className="button">

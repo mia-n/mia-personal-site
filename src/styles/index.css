@@ -283,6 +283,20 @@ img {
   padding-block: 1rem 0.5rem;
 }
 
+.hero-name {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.hero-avatar {
+  width: 1em;
+  height: 1em;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
 .eyebrow {
   text-transform: uppercase;
   letter-spacing: 0.08em;
