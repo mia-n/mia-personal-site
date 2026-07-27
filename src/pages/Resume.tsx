@@ -43,7 +43,7 @@ export default function Resume() {
             <div className="entry-head">
               <h3>{ed.school}</h3>
               <span className="entry-dates">
-                {ed.start} – {ed.end}
+                {ed.start ? `${ed.start} – ${ed.end}` : ed.end}
               </span>
             </div>
             <p className="muted">{ed.credential}</p>
