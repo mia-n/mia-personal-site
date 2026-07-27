@@ -1,6 +1,28 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-  <rect width="64" height="64" rx="14" fill="#4f46e5" />
-  <text x="50%" y="52%" dy=".35em" text-anchor="middle"
-        font-family="ui-sans-serif, system-ui, sans-serif"
-        font-size="34" font-weight="700" fill="#ffffff">M</text>
+<!--
+  The header's solar system, frozen as a still. Geometry and colors match the
+  .solar-system block in src/styles/index.css, with the planets at the same
+  starting angles (45/135/225/315 degrees, clockwise from twelve o'clock).
+
+  The dark plate is deliberate: it keeps the sun and planets legible against
+  both light and dark browser chrome. Rings are drawn a touch heavier than on
+  the site so they survive being scaled down to 16px.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img"
+     aria-label="Solar system">
+  <rect width="64" height="64" rx="14" fill="#0d1117" />
+
+  <g fill="none" stroke="#9198a1" stroke-opacity=".45" stroke-width="1.4">
+    <circle cx="32" cy="32" r="10" />
+    <circle cx="32" cy="32" r="16" />
+    <circle cx="32" cy="32" r="22" />
+    <circle cx="32" cy="32" r="27" />
+  </g>
+
+  <circle cx="32" cy="32" r="9" fill="#ffd43b" opacity=".18" />
+  <circle cx="32" cy="32" r="6" fill="#ffd43b" />
+
+  <circle cx="39.07" cy="24.93" r="3" fill="#98a1ae" />
+  <circle cx="43.31" cy="43.31" r="3.5" fill="#e0b17a" />
+  <circle cx="16.44" cy="47.56" r="4" fill="#3b82f6" />
+  <circle cx="12.91" cy="12.91" r="3" fill="#ef4444" />
 </svg>

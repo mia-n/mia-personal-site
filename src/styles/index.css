@@ -211,25 +211,35 @@ img {
   font-weight: 600;
 }
 
+/* The solar system is the theme toggle. No border or fill of its own — the
+   orbit rings already read as a circle, and a second one around them looked
+   like a button inside a button. */
 .theme-toggle {
-  margin-left: 0.35rem;
-  border: 1px solid var(--border);
-  background: var(--surface);
-  color: var(--text);
-  width: 2rem;
-  height: 2rem;
-  border-radius: 999px;
-  cursor: pointer;
-  font-size: 0.95rem;
-  line-height: 1;
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  margin-left: 0.4rem;
+  padding: 4px;
+  border: none;
+  background: transparent;
+  border-radius: 50%;
+  cursor: pointer;
   transition: background 0.15s ease;
 }
 
 .theme-toggle:hover {
   background: var(--bg-subtle);
+}
+
+/* Brighten the rings and the sun's glow on hover, so it reads as a control. */
+.theme-toggle:hover .solar-system {
+  --ring-strength: 48%;
+  --sun-glow: 9px;
+}
+
+.theme-toggle:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
 }
 
 /* ------------------------------------------------------------------ */
@@ -540,6 +550,146 @@ img {
 
 .prose img {
   border-radius: var(--radius-sm);
+}
+
+/* ------------------------------------------------------------------ */
+/* Header solar system (decorative, CSS-only)                          */
+/* ------------------------------------------------------------------ */
+/* Rendered inside the theme-toggle button, which owns the spacing, hover
+   and focus treatment; this block is just the graphic. */
+.solar-system {
+  /* Fixed colors rather than theme tokens: the planets should look the same
+     in light and dark. All are bright enough to read on either background. */
+  --sun: #ffd43b;
+  --mercury: #98a1ae;
+  --venus: #e0b17a;
+  --earth: #3b82f6;
+  --mars: #ef4444;
+
+  /* Stroke width of the orbit rings; the planet placement derives from it. */
+  --ring-w: 1px;
+  /* Overridden on hover by .theme-toggle. */
+  --ring-strength: 26%;
+  --sun-glow: 6px;
+
+  position: relative;
+  flex: none;
+  width: 28px;
+  height: 28px;
+}
+
+.solar-system .sun {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 6px;
+  height: 6px;
+  margin: -3px 0 0 -3px;
+  border-radius: 50%;
+  background: var(--sun);
+  box-shadow: 0 0 var(--sun-glow) color-mix(in srgb, var(--sun) 75%, transparent);
+  transition: box-shadow 0.15s ease;
+}
+
+/* Each orbit is a ring that spins; the planet rides on its edge. The
+   translate keeps the ring centered and must be repeated in the keyframes,
+   since the animation replaces the whole transform. */
+.solar-system .orbit {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: var(--size);
+  height: var(--size);
+  border: var(--ring-w) solid
+    color-mix(in srgb, var(--text-muted) var(--ring-strength), transparent);
+  transition: border-color 0.15s ease;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  animation: orbit-spin linear infinite;
+}
+
+/* Sit the planet on the ring's centerline.
+   `top/left: 50%` resolves against the parent's padding box, which is inset
+   by the border — but since the border is symmetric, that midpoint is still
+   the true center of the ring. From there: self-center the dot, then push it
+   out by the orbital radius (half the ring, less half a stroke). Deriving it
+   this way keeps the dot on the line if the size or stroke ever changes. */
+.solar-system .planet {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  border-radius: 50%;
+  transform: translate(-50%, -50%)
+    translateY(calc((var(--size) - var(--ring-w)) / -2));
+}
+
+/* Orbit sizes and speeds. Durations grow outward (as they do for real
+   orbits) and share no common factors, so the planets never settle into a
+   repeating pattern. The negative delays set each planet's starting angle
+   (delay/duration * 360deg), spacing them 90deg apart so they look scattered
+   rather than bunched on first paint. */
+.solar-system .orbit-mercury {
+  --size: 10px;
+  animation-duration: 4s;
+  animation-delay: -0.5s;
+}
+
+.solar-system .orbit-venus {
+  --size: 16px;
+  animation-duration: 7s;
+  animation-delay: -2.62s;
+}
+
+.solar-system .orbit-earth {
+  --size: 22px;
+  animation-duration: 11s;
+  animation-delay: -6.88s;
+}
+
+.solar-system .orbit-mars {
+  --size: 27px;
+  animation-duration: 17s;
+  animation-delay: -14.88s;
+}
+
+/* Planet size and color; placement is handled by .planet above. */
+.solar-system .orbit-mercury .planet {
+  width: 3px;
+  height: 3px;
+  background: var(--mercury);
+}
+
+.solar-system .orbit-venus .planet {
+  width: 3.5px;
+  height: 3.5px;
+  background: var(--venus);
+}
+
+.solar-system .orbit-earth .planet {
+  width: 4px;
+  height: 4px;
+  background: var(--earth);
+}
+
+.solar-system .orbit-mars .planet {
+  width: 3px;
+  height: 3px;
+  background: var(--mars);
+}
+
+@keyframes orbit-spin {
+  from {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  to {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .solar-system .orbit {
+    animation: none;
+  }
 }
 
 /* ------------------------------------------------------------------ */
