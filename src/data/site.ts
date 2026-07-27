@@ -16,7 +16,7 @@ export interface SiteConfig {
 }
 
 export const siteConfig: SiteConfig = {
-  name: 'Mia Decuir',
+  name: 'Mia DeCuir',
   role: 'Software Engineer',
   tagline: 'I build thoughtful software and write about it.',
   email: 'mia@decuir.info',
