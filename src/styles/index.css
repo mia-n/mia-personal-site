@@ -713,6 +713,12 @@ img {
   color: var(--text-muted);
 }
 
+/* Muted text has too little contrast against the link color to tell them
+   apart by color alone, so underline links in this context. */
+.muted a {
+  text-decoration: underline;
+}
+
 .small {
   font-size: 0.85rem;
 }

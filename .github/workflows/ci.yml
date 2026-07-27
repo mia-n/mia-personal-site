@@ -1,0 +1,32 @@
+# Accessibility gate for pull requests.
+#
+# Runs axe-core against every route (via Playwright + @axe-core/playwright)
+# and fails on any violation, regardless of severity. This is a greenfield
+# site with few pages, so there's no reason to tolerate known issues — fix
+# them before merging instead of tracking a backlog.
+
+name: CI
+
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  accessibility:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm exec playwright install --with-deps chromium
+      - run: pnpm run test:a11y
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 7
