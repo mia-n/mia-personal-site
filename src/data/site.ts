@@ -1,6 +1,3 @@
-// Central place for site-wide identity and links.
-// Edit these values to make the site yours.
-
 export interface SocialLink {
   label: string
   href: string
@@ -18,12 +15,12 @@ export interface SiteConfig {
 export const siteConfig: SiteConfig = {
   name: 'Mia DeCuir',
   role: 'Software Engineer',
-  tagline: 'I build thoughtful software and write about it.',
+  tagline: 'I write software and fight gravity.',
   email: 'mia@decuir.info',
   location: 'Remote',
   socials: [
     { label: 'GitHub', href: 'https://github.com/mia-n' },
-    { label: 'LinkedIn', href: 'https://www.linkedin.com/' },
+    { label: 'LinkedIn', href: 'https://www.linkedin.com/in/mia-decuir/' },
     { label: 'Email', href: 'mailto:mia@decuir.info' },
   ],
 }
